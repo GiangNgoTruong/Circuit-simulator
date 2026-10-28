@@ -22,6 +22,12 @@ Xây dựng ứng dụng mô phỏng và phân tích mạch điện đơn giản
 ## 2. Cấu trúc thư mục
 
 ```text
+Circuit-simulator/
+├── pom.xml
+├── .gitignore
+├── README.md
+├── docs/
+│   └── design/ 
 src/
 ├── main/
 │   ├── java/circuitsim/
