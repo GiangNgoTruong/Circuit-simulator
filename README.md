@@ -28,34 +28,23 @@ src/
 │   │   ├── Main.java
 │   │   │
 │   │   ├── model/
-│   │   │   ├── component/
-│   │   │   │   ├── CircuitElement.java
-│   │   │   │   ├── Resistor.java
-│   │   │   │   ├── Capacitor.java
-│   │   │   │   └── Inductor.java
-│   │   │   │
-│   │   │   ├── source/
-│   │   │   │   ├── VoltageSource.java
-│   │   │   │   ├── ACSource.java
-│   │   │   │   └── DCSource.java
-│   │   │   │
-│   │   │   └── circuit/
-│   │   │       ├── Circuit.java
-│   │   │       ├── SeriesCircuit.java
-│   │   │       └── ParallelCircuit.java
+│   │   │   ├── Complex.java
+│   │   │   ├── CircuitElement.java
+│   │   │   ├── Resistor.java
+│   │   │   ├── Capacitor.java
+│   │   │   ├── Inductor.java
+│   │   │   ├── VoltageSource.java
+│   │   │   ├── ACSource.java
+│   │   │   ├── DCSource.java
+│   │   │   ├── Circuit.java
+│   │   │   ├── SeriesCircuit.java
+│   │   │   └── ParallelCircuit.java
 │   │   │
-│   │   ├── analysis/
+│   │   ├── logic/
 │   │   │   ├── CircuitAnalyzer.java
 │   │   │   ├── CircuitValidator.java
 │   │   │   ├── AnalysisResult.java
 │   │   │   └── ElementResult.java
-│   │   │
-│   │   ├── math/
-│   │   │   └── Complex.java
-│   │   │
-│   │   ├── exception/
-│   │   │   ├── InvalidCircuitException.java
-│   │   │   └── ShortCircuitException.java
 │   │   │
 │   │   ├── controller/
 │   │   │   └── CircuitController.java
@@ -70,30 +59,27 @@ src/
     └── java/com/hust/circuitsim/
 ```
 
-Cấu trúc trên là dự kiến ban đầu, có thể thay đổi khi triển khai nếu cả nhóm thống nhất.
+Cấu trúc trên là định hướng ban đầu, có thể điều chỉnh khi triển khai nếu cả nhóm thống nhất.
 
 ## 3. Phân chia trách nhiệm các package
 
 | Package | Chức năng |
 |---|---|
-| `model.component` | Biểu diễn các linh kiện điện và thuộc tính của chúng |
-| `model.source` | Biểu diễn nguồn điện AC/DC |
-| `model.circuit` | Quản lý cấu trúc mạch và danh sách linh kiện |
-| `analysis` | Kiểm tra mạch, tính toán và lưu kết quả phân tích |
-| `math` | Xử lý các phép toán số phức |
-| `exception` | Định nghĩa các lỗi liên quan đến mạch điện |
-| `controller` | Nhận thao tác người dùng và điều phối xử lý |
-| `view` | Hiển thị giao diện, sơ đồ mạch và kết quả |
+| `model` | Biểu diễn các đối tượng, thuộc tính và trạng thái của mạch điện |
+| `logic` | Kiểm tra tính hợp lệ, phân tích mạch và tính toán kết quả |
+| `controller` | Tiếp nhận thao tác người dùng, điều phối giữa các phần |
+| `view` | Hiển thị giao diện, sơ đồ mạch điện và kết quả |
 
 ### Quy tắc tổ chức code
 
-- Mỗi class chỉ nên đảm nhiệm một trách nhiệm chính.
-- Các thuộc tính nên được đóng gói, hạn chế sử dụng `public` không cần thiết.
-- Ưu tiên sử dụng kế thừa và đa hình khi phù hợp.
-- Không đặt logic tính toán mạch điện trong `view` hoặc `controller`.
-- Các class trong `model`, `analysis` và `math` không được phụ thuộc vào JavaFX.
-- Hạn chế tạo các class hoặc package không cần thiết.
-- Nếu cần thay đổi cấu trúc chung hoặc API đang được thành viên khác sử dụng, phải trao đổi trước với nhóm.
+- Mỗi class nên đảm nhiệm một trách nhiệm chính.
+- Ưu tiên đóng gói dữ liệu, sử dụng kế thừa và đa hình khi phù hợp.
+- `model` không phụ thuộc vào `logic`, `controller` hoặc `view`.
+- `logic` có thể sử dụng `model`, nhưng không phụ thuộc vào GUI.
+- `controller` chịu trách nhiệm kết nối các thành phần.
+- `view` chỉ xử lý hiển thị và tương tác giao diện, không trực tiếp tính toán mạch điện.
+- Những hành vi đặc trưng của đối tượng, chẳng hạn tính trở kháng của linh kiện, có thể được triển khai trong `model`.
+- Không tự ý thay đổi API hoặc cấu trúc chung khi chưa trao đổi với nhóm.
 
 ## 4. Quy ước Git
 
@@ -103,6 +89,7 @@ Cấu trúc trên là dự kiến ban đầu, có thể thay đổi khi triển 
 - `feature/<ten-chuc-nang>`: Phát triển chức năng mới.
 - `fix/<ten-loi>`: Sửa lỗi.
 - `refactor/<mo-ta>`: Cải thiện cấu trúc code.
+- `docs/<mo-ta>`: Chỉnh sửa tài liệu.
 
 Ví dụ:
 
@@ -115,8 +102,6 @@ fix/short-circuit
 ```
 
 ### Quy ước commit
-
-Sử dụng các tiền tố:
 
 | Tiền tố | Ý nghĩa |
 |---|---|
@@ -166,10 +151,5 @@ Việc phân công cụ thể sẽ được quản lý thông qua GitHub Issues.
 
 Các phần chính:
 
-- **Component & Source:** Linh kiện và nguồn điện.
-- **Circuit Model:** Cấu trúc mạch nối tiếp/song song.
-- **Math & Analysis:** Số phức và tính toán mạch điện.
-- **GUI:** Giao diện và hiển thị sơ đồ.
-- **Integration & Testing:** Tích hợp các module và kiểm thử.
-
-Các thành viên cần phối hợp thống nhất API trước khi triển khai những phần có phụ thuộc lẫn nhau.
+- **Model:** Xây dựng linh kiện, nguồn điện và cấu trúc mạch.
+- **Logic
