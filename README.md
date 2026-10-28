@@ -24,7 +24,7 @@ Xây dựng ứng dụng mô phỏng và phân tích mạch điện đơn giản
 ```text
 src/
 ├── main/
-│   ├── java/com/hust/circuitsim/
+│   ├── java/circuitsim/
 │   │   ├── Main.java
 │   │   │
 │   │   ├── model/
