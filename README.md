@@ -1,6 +1,6 @@
 # Electrical Circuit Simulator
 
-Bài tập lớn môn **Lập trình hướng đối tượng (OOP)** – Đại học Bách khoa Hà Nội (HUST).
+Bài tập lớn môn OOP.
 
 ## 1. Giới thiệu
 
@@ -47,7 +47,7 @@ Circuit-simulator/
     │   │       │   ├── Terminal.java
     │   │       │   ├── Wire.java
     │   │       │   ├── CircuitGraph.java
-    │   │       │   └── Branch.java
+    │   │       │   └── Edge.java
     │   │       ├── logic/
     │   │       │   ├── TopologyBuilder.java
     │   │       │   ├── CircuitValidator.java
@@ -106,8 +106,8 @@ Dự án tổ chức theo **Layered Architecture**, có sự phân chia trách n
 | `Circuit` | Lưu trạng thái mạch do người dùng tạo: danh sách linh kiện, nguồn, dây nối và các thao tác chỉnh sửa. Không mặc định toàn mạch chỉ nối tiếp hoặc song song. |
 | `Terminal` | Đại diện một chân kết nối cụ thể của linh kiện hoặc nguồn; giúp xác định người dùng nối dây vào đầu nào. |
 | `Wire` | Biểu diễn kết nối dây dẫn lý tưởng giữa các terminal hoặc điểm nối; phục vụ lưu/chỉnh sửa sơ đồ gốc. |
-| `Branch` | Biểu diễn một phần tử hai cực nối giữa hai **nút điện đã chuẩn hóa**; là cạnh của Graph tính toán. |
-| `CircuitGraph` | Lưu các nút điện và nhánh linh kiện/nguồn sau khi chuẩn hóa; có thể có nhiều cạnh giữa cùng một cặp nút (**multigraph**). |
+| `Edge` | Biểu diễn một phần tử hai cực nối giữa hai **nút điện đã chuẩn hóa**; là cạnh của Graph tính toán. |
+| `CircuitGraph` | Lưu các nút điện và cạnh linh kiện/nguồn sau khi chuẩn hóa; có thể có nhiều cạnh giữa cùng một cặp nút (**multigraph**). |
 
 **Quan hệ kế thừa chính:**
 
@@ -124,9 +124,9 @@ VoltageSource
 
 `Circuit` quản lý các thành phần và kết nối của mạch. Quan hệ nối tiếp, song song hoặc hỗn hợp được xác định thông qua cấu trúc Graph của mạch điện.
 
-> **Thống nhất API:** `Branch` phải biểu diễn được cả linh kiện thụ động và nguồn điện áp. Có thể sử dụng interface chung cho phần tử hai cực hoặc thiết kế kiểu nhánh riêng cho nguồn. Không nên khai báo `Branch.element` chỉ có kiểu `CircuitElement` nếu `VoltageSource` không kế thừa class này.
+> **Thống nhất API:** `Edge` phải biểu diễn được cả linh kiện thụ động và nguồn điện áp. Có thể sử dụng interface chung cho phần tử hai cực hoặc thiết kế kiểu nhánh riêng cho nguồn. Không nên khai báo `Edge.element` chỉ có kiểu `CircuitElement` nếu `VoltageSource` không kế thừa class này.
 
-### 4.2. Phân biệt `Terminal`, `Wire`, `Branch`
+### 4.2. Phân biệt `Terminal`, `Wire`, `Edge`
 
 Ví dụ người dùng nối chân phải của `R1` với chân trái của `R2` và `L1`:
 
@@ -139,7 +139,7 @@ Sau khi gộp dây:
 Node B = {R1.right, R2.left, L1.left}
 ```
 
-`TopologyBuilder` sẽ tạo các `Branch` bằng cách xác định nút điện của **hai đầu mỗi linh kiện**. Ví dụ:
+`TopologyBuilder` sẽ tạo các `Edge` bằng cách xác định nút điện của **hai đầu mỗi linh kiện**. Ví dụ:
 
 ```text
 R1: Node A -- Node B
@@ -222,7 +222,7 @@ Circuit (Components + Terminals + Wires)
 TopologyBuilder
   │ Gộp các terminal nối dây (DSU)
   ▼
-CircuitGraph (Nodes + Branches)
+CircuitGraph (Nodes + Edges)
   │
   ▼
 CircuitValidator
@@ -326,7 +326,7 @@ Việc phân công cụ thể được quản lý thông qua GitHub Issues.
 
 1. Thống nhất UML, cách định danh linh kiện/terminal và API chung cho phần tử hai cực.
 2. Hoàn thiện `Complex`, các linh kiện và nguồn điện.
-3. Hoàn thiện `Circuit`, `Terminal`, `Wire`, `Branch`, `CircuitGraph`.
+3. Hoàn thiện `Circuit`, `Terminal`, `Wire`, `Edge`, `CircuitGraph`.
 4. Triển khai `TopologyBuilder` và unit test gộp nút, nối tiếp, song song, nhánh rời.
 5. Triển khai `CircuitValidator`, `NodalSolver`, `CircuitAnalyzer` và kiểm thử DC/AC.
 6. Kết nối `CircuitController`, giao diện kéo dây và bảng kết quả.
