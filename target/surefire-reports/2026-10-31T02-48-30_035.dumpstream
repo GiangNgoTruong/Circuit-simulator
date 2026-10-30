@@ -1,5 +1,0 @@
-# Created at 2026-10-31T02:48:30.148
-Boot Manifest-JAR contains absolute paths in classpath 'e:\CircuitSimulator\target\test-classes'
-Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-'other' has different root
-
