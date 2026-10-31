@@ -4,8 +4,7 @@ import circuitsim.model.*;
 import java.util.*;
 
 public class NodalSolver {
-
-    public Map<Double, Complex[]> solve(CircuitGraph graph) {
+    public CircuitSolution solve(CircuitGraph graph) {
         if (!graph.getNodes().contains(graph.getGround())) {
             throw new IllegalArgumentException("Ground is not set");
         }
@@ -26,16 +25,16 @@ public class NodalSolver {
             }
         }
 
-        Map<Double, Complex[]> results = new HashMap<>();
+        Map<Double, CircuitSolution.MnaResult> results = new HashMap<>();
 
         for (double freq : freqs) {
             results.put(freq, solveAtFrequency(graph, freq, nodeIndex));
         }
 
-        return results;
+        return new CircuitSolution(nodeIndex, results, graph.getGround());
     }
 
-    private Complex[] solveAtFrequency(CircuitGraph graph,double freq,Map<Integer, Integer> nodeIndex) {
+    private CircuitSolution.MnaResult solveAtFrequency(CircuitGraph graph,double freq,Map<Integer, Integer> nodeIndex) {
         Map<Edge, Integer> sourceIndex = new HashMap<>();
 
         int k = nodeIndex.size();
@@ -105,7 +104,7 @@ public class NodalSolver {
             }
         }
 
-        return eqMatrix.solve(rhs);
+        return new CircuitSolution.MnaResult(eqMatrix.solve(rhs), sourceIndex);
     }
 
     private void stampAdmittance(ComplexMatrix matrix,int a,int b,Complex y) {
