@@ -10,6 +10,9 @@ public final class Complex {
     private final double imag;
 
 
+    public Complex() {
+        this(0.0, 0.0);
+    }
     public Complex(double real, double imag) {
         this.real = real;
         this.imag = imag;
@@ -18,6 +21,7 @@ public final class Complex {
     public Complex(double real) {
         this(real, 0.0);
     }
+
 
     public static Complex fromPolar(double r, double theta) {
         if (!Double.isFinite(r) || r < 0 || !Double.isFinite(theta)) {
