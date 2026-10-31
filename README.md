@@ -2,6 +2,50 @@
 
 Bài tập lớn môn OOP.
 
+## Chạy giao diện hiện tại
+
+Trên máy Windows hiện tại, có thể nhấp đúp `run.cmd` để mở giao diện,
+hoặc chạy `.\run.cmd` trong PowerShell. Chạy `.\test.cmd` để kiểm thử.
+Script tự chọn JDK 21 và Maven đã cài trên máy, lưu dependency trong `target/m2`.
+Lần chạy đầu cần Internet để tải các dependency còn thiếu.
+
+Yêu cầu **JDK 21+** và **Maven** (đặt `JAVA_HOME` trỏ tới JDK 21).
+
+```sh
+mvn javafx:run
+```
+
+Giao diện JavaFX theo phong cách sandbox đồ chơi: bàn gỗ và linh kiện 3D thật
+trong `SubScene`, camera phối cảnh, vật liệu Phong và đèn chiếu sáng.
+Nút PLAY/STOP và kho đồ nghề phía dưới giữ dạng giao diện 2D.
+Kéo chuột trái trên linh kiện để di chuyển; kéo chuột phải để xoay góc nhìn;
+cuộn chuột để zoom. Nút GÓC NHÌN BAN ĐẦU khôi phục camera.
+Máy không hỗ trợ JavaFX SCENE3D tự dùng bản Canvas 2D.
+Có thể thêm linh kiện R/L/C, nguồn AC/DC, bóng đèn và công tắc minh họa;
+kéo để bố trí, chỉnh tên/giá trị, xóa linh kiện và nạp lại mạch mẫu.
+PLAY bật hiệu ứng đèn sáng, STOP dừng hiệu ứng, DỌN BÀN xóa toàn bộ bố trí.
+Giá trị nhập dùng dấu chấm thập phân.
+
+**Tự mắc dây:** bật NỐI DÂY ở bảng bên phải, nhấn hai đầu cực màu vàng
+trên hai linh kiện khác nhau. Cực đầu tiên chuyển xanh và có dây xem trước.
+Một cực có thể nối nhiều nhánh. Nhấn dây khi đang ở chế độ này để tháo;
+Esc hủy đầu cực đang chọn và trở về di chuyển. Xóa linh kiện sẽ xóa các dây
+gắn vào nó. Trên bản 2D, nhấn nửa trái/phải linh kiện để chọn cực tương ứng.
+
+**Vật lý nhẹ (3D):** linh kiện rơi và nảy nhẹ khi thêm/thả; mặt bàn chặn rơi,
+phạm vi kéo giới hạn trong bàn và các vùng va chạm tròn tránh chồng linh kiện.
+Có thể bật/tắt bằng ô Vật lý nhẹ. Đây là mô hình 2.5D với linh kiện đứng thẳng,
+chưa có lật, xếp chồng hay mô phỏng dây mềm có lực kéo.
+
+**Trạng thái:** đây là UI prototype, dữ liệu bố trí nằm tạm trong `view`.
+Các dây lưu đúng cặp đầu cực trong `WireNetwork`, đi theo linh kiện,
+nhưng chưa tích hợp topology, lưu/tải mạch hoặc bộ giải. PLAY chỉ chạy
+hiệu ứng demo, không tính thông mạch hoặc tạo kết quả điện. Bóng đèn và
+công tắc chưa có mô hình tính toán.
+Phần model tính toán hiện có được giữ độc lập với giao diện.
+
+Kiểm tra build và unit test: `mvn test`.
+
 ## 1. Giới thiệu
 
 Xây dựng ứng dụng mô phỏng và phân tích mạch điện RLC đơn giản bằng Java. Người dùng có thể đặt linh kiện, nối dây giữa các chân linh kiện và yêu cầu chương trình phân tích mạng điện đã tạo.
